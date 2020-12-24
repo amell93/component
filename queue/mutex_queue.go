@@ -15,7 +15,7 @@ func NewMQueue(size ...int) *MQueue {
 
 	length := defaultSize
 
-	if len(size) > 0 || size[0] >= 0 {
+	if len(size) > 0 && size[0] >= 0 {
 		length = size[0]
 	}
 
