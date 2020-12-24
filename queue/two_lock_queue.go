@@ -4,21 +4,21 @@ import "sync"
 
 // TLQueue is a concurrent unbounded queue.
 type TLQueue struct {
-	head  *tNode
-	tail  *tNode
+	head  *tlNode
+	tail  *tlNode
 	hLock sync.Mutex //protect head
 	tLock sync.Mutex //protect tail
 
 }
 
-type tNode struct {
+type tlNode struct {
 	value interface{}
-	next  *tNode
+	next  *tlNode
 }
 
 // NewTLQueue returns an empty TLQueue.
 func NewTLQueue() *TLQueue {
-	n := &tNode{}
+	n := &tlNode{}
 	tq := TLQueue{head: n, tail: n}
 
 	return &tq
@@ -26,7 +26,7 @@ func NewTLQueue() *TLQueue {
 
 // Enqueue puts the given value v at the tail of the queue.
 func (q *TLQueue) Enqueue(v interface{}) {
-	n := &tNode{value: v}
+	n := &tlNode{value: v}
 	q.tLock.Lock()
 	q.tail.next = n
 	q.tail = n
