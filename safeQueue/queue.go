@@ -1,4 +1,4 @@
-package queue
+package safeQueue
 
 type Queue interface {
 	Enqueue(v interface{})

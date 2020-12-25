@@ -1,9 +1,11 @@
-package queue
+package safeQueue
 
-import "testing"
+import (
+	"testing"
+)
 
-func TestLFQueue_EnqueueAndDequeue(t *testing.T) {
-	lfQueue := NewLFQueue()
+func TestMQueue_EnqueueAndDequeue(t *testing.T) {
+	mQueue := NewMQueue(10)
 	length := 100
 	vs := make([]int, 0, length)
 	for i := 0; i < length; i++ {
@@ -11,15 +13,16 @@ func TestLFQueue_EnqueueAndDequeue(t *testing.T) {
 	}
 
 	for _, value := range vs {
-		lfQueue.Enqueue(value)
+		mQueue.Enqueue(value)
 	}
 
 	for _, value := range vs {
-		v := lfQueue.Dequeue()
+		v := mQueue.Dequeue()
 		newV := v.(int)
 		if newV != value {
 			t.Fail()
 			t.Logf("the enqueue value is %d but dequeue value is %d", value, newV)
 		}
 	}
+
 }
