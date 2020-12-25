@@ -34,10 +34,10 @@ func NewCountRate(rate int, cycle time.Duration) (*CountRate, error) {
 
 }
 
-// Allow returns the result of add count.
+// Take returns the result of add count.
 // if returns true when add the count success
 // else returns false.
-func (cRate *CountRate) Allow() bool {
+func (cRate *CountRate) Take() bool {
 	cRate.lock.Lock()
 	defer cRate.lock.Unlock()
 
@@ -57,15 +57,28 @@ func (cRate *CountRate) Allow() bool {
 }
 
 // Set set the CountRate by given value rate and cycle
-func (cRate *CountRate) Set(rate int, cycle time.Duration) {
+func (cRate *CountRate) Set(rate int, cycle time.Duration) error {
+
+	if rate <= 0 || cycle <= 0 {
+		return RateOrCycleErr
+	}
+
+	cRate.lock.Lock()
+	defer cRate.lock.Unlock()
+
 	cRate.rate = rate
 	cRate.begin = time.Now()
 	cRate.cycle = cycle
 	cRate.count = 0
+
+	return nil
 }
 
 // Reset reset the begin time and count
 func (cRate *CountRate) Reset(begin time.Time) {
+	cRate.lock.Lock()
+	defer cRate.lock.Unlock()
+
 	cRate.begin = begin
 	cRate.count = 0
 }
