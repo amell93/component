@@ -59,6 +59,3 @@ func BenchmarkString2Slice(b *testing.B) {
 		_ = bs
 	}
 }
-
-//BenchmarkSlice2String-16    	1000000000	         0.427 ns/op	       0 B/op	       0 allocs/op
-//BenchmarkString2Slice-16    	1000000000	         0.314 ns/op	       0 B/op	       0 allocs/op
